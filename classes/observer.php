@@ -49,6 +49,14 @@ class local_notifyemailsignup_observer {
             return true;
         }
 
+	// Suspend the new user
+	if (!is_siteadmin($user) and $USER->id != $user->id and $user->suspended != 1) {
+                $user->suspended = 1;
+                // Force logout.
+                \core\session\manager::kill_user_sessions($user->id);
+                user_update_user($user, false);
+            }
+
         // It was, so send a notification email to the notification address(es), withi the account details.
         $site = get_site();
         $supportuser = core_user::get_support_user();
@@ -60,6 +68,8 @@ class local_notifyemailsignup_observer {
         $data['supportname'] = fullname($supportuser);
         $data['sitename'] = format_string($site->fullname);
         $data['signoff'] = generate_email_signoff();
+	//$data['user_profile_link'] = new moodle_url('/user/editadvanced.php', array('id' => $user->id));
+	$data['user_profile_link'] = $CFG->wwwroot.'/user/editadvanced.php?id='.$user->id;
 
         // Add the user table fields.
         foreach ($user as $key => $value) {

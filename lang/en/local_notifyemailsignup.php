@@ -36,6 +36,8 @@ using the following details:
 - first name: {$a->signup_user_firstname}
 - last name: {$a->signup_user_lastname}
 
-Cheers from the \'{$a->sitename}\' administrator,
+The account is currently suspended. You can activate it by editing the user profile at the following link:
+{$a->user_profile_link}
+
 {$a->signoff}';
 $string['pluginname'] = 'Notify site administrators about new Email Signups';
