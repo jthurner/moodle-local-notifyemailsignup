@@ -17,8 +17,9 @@
 /**
  * Email Signup Notification Plugin
  *
- * @package    local_notifyemailsignup
+ * @package    local_selfregadminconfirmed
  * @author     Iñaki Arenaza
+ * @author     Joschka Thurner
  * @copyright  2017 Iñaki Arenaza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,6 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 $observers = array(
     array(
         'eventname' => '\core\event\user_created',
-        'callback' => 'local_notifyemailsignup_observer::user_signup',
+        'callback' => 'local_selfregadminconfirmed_observer::user_signup',
     ),
 );

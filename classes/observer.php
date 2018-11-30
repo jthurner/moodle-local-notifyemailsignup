@@ -17,8 +17,9 @@
 /**
  * Email signup notification event observers.
  *
- * @package    local_notifyemailsignup
+ * @package    local_selfregadminconfirmed
  * @author     Iñaki Arenaza
+ * @author     Joschka Thurner
  * @copyright  2017 Iñaki Arenaza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,14 +27,15 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Email signup notification event observers.
+ * Version details
  *
- * @package    local_notifyemailsignup
+ * @package    local_selfregadminconfirmed
  * @author     Iñaki Arenaza
+ * @author     Joschka Thurner
  * @copyright  2017 Iñaki Arenaza
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_notifyemailsignup_observer {
+class local_selfregadminconfirmed_observer {
     /**
      * Event processor - user created
      *
@@ -84,8 +86,8 @@ class local_notifyemailsignup_observer {
             $data['signup_profile_'.$key] = $value;
         }
 
-        $subject = get_string('notifyemailsignupsubject', 'local_notifyemailsignup', format_string($site->fullname));
-        $message  = get_string('notifyemailsignupbody', 'local_notifyemailsignup', $data);
+        $subject = get_string('notifyemailsignupsubject', 'local_selfregadminconfirmed', format_string($site->fullname));
+        $message  = get_string('notifyemailsignupbody', 'local_selfregadminconfirmed', $data);
         $messagehtml = text_to_html($message, false, false, true);
 
         $supportuser->mailformat = 1; // Always send HTML version as well.

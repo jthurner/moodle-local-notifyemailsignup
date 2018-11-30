@@ -40,4 +40,4 @@ The account is currently suspended. You can activate it by editing the user prof
 {$a->user_profile_link}
 
 {$a->signoff}';
-$string['pluginname'] = 'Notify site administrators about new Email Signups';
+$string['pluginname'] = 'Require Admin approval for new Email Signups';

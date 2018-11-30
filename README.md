@@ -1,14 +1,19 @@
 ## What this Moodle plugin is for ##
 
-This Moodle plugin sends an email notification message to the 'Support
-email' address every time a new Moodle user account is created via the
-'Email signup' authentication plugin. The notification message
-contains some essential details about the account just created (email
-address, full name and user account name).
+This Moodle plugin is a fork of [notifyemailsignup](https://github.com/iarenaza/moodle-local-notifyemailsignup) by Iñaki Arenaza, with some minor modifactions to require admin confirmation for any new account registerd with email self-registration.
 
-The email is sent when the user signs up, not when the user account is
-confirmed. So the plugin will notify even about accounts that may
-never be confirmed.
+The plugin immediately suspends all users created via the 'Email signup' authentication plugin and sends an email notification message to the 'Support email'. The notification message contains some essential details about the account just created (email address, full name and user account name) and a link to the user profile. Until an admin un-suspends the account, the user will not be able to login even if they confirm their account. 
+
+The notification email is sent when the user signs up, not when the user account is confirmed. So the plugin will notify even about accounts that may never be confirmed.
+
+### Drawbacks and alternatives ### 
+
+- having to confirm their account AND wait for admin approval can be confusing for users,
+the process has to be communicated in welcome/confirmation email text
+- no automatic notification email is sent when the Admin unsuspends the account
+
+The "[Email-based self-registration with admin confirmation](https://moodle.org/plugins/auth_emailadmin)" plugin by Felipe Carasso provides better workflow (confirmation email is sent to the user only after admin approval) but forks auth/email/auth.php from core instead of using the event system, which potentially breaks signup (e.g. currently custom/locked fields) if the code isn't updated in lockstep with moodle.
+
 
 ## Supported Moodle Versions ##
 
@@ -61,6 +66,7 @@ some of the user table fields are shown for brevity purposes):
   the content of the custom profile field whose shortname is ``signupcategory``.
 * ``{$a->signup_profile_referralcode}``: this will be substituted by
   the content of the custom profile field whose shortname is ``referralcode``.
+* ``{$a->user_profile_link}``: this will be substituted by the URL for editing the user's account.
 
 
 
