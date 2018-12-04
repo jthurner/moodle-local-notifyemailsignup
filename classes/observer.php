@@ -51,13 +51,15 @@ class local_selfregadminconfirmed_observer {
             return true;
         }
 
-	// Suspend the new user
-	if (!is_siteadmin($user) and $USER->id != $user->id and $user->suspended != 1) {
-                $user->suspended = 1;
-                // Force logout.
-                \core\session\manager::kill_user_sessions($user->id);
-                user_update_user($user, false);
-            }
+        // decrease (unlikely) likelihood of user getting suspended before the confirmation mail has been created
+        sleep(5)
+      	// Suspend the new user
+      	if (!is_siteadmin($user) and $USER->id != $user->id and $user->suspended != 1) {
+                      $user->suspended = 1;
+                      // Force logout.
+                      \core\session\manager::kill_user_sessions($user->id);
+                      user_update_user($user, false);
+                  }
 
         // It was, so send a notification email to the notification address(es), withi the account details.
         $site = get_site();

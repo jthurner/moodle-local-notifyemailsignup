@@ -2,15 +2,16 @@
 
 This Moodle plugin is a fork of [notifyemailsignup](https://github.com/iarenaza/moodle-local-notifyemailsignup) by Iñaki Arenaza, with some minor modifactions to require admin confirmation for any new account registerd with email self-registration.
 
-The plugin immediately suspends all users created via the 'Email signup' authentication plugin and sends an email notification message to the 'Support email'. The notification message contains some essential details about the account just created (email address, full name and user account name) and a link to the user profile. Until an admin un-suspends the account, the user will not be able to login even if they confirm their account. 
+The plugin immediately suspends all users created via the 'Email signup' authentication plugin and sends an email notification message to the 'Support email'. The notification message contains some essential details about the account just created (email address, full name and user account name) and a link to the user profile. Until an admin un-suspends the account, the user will not be able to login even if they confirm their account.
 
 The notification email is sent when the user signs up, not when the user account is confirmed. So the plugin will notify even about accounts that may never be confirmed.
 
-### Drawbacks and alternatives ### 
+### Drawbacks and alternatives ###
 
 - having to confirm their account AND wait for admin approval can be confusing for users,
 the process has to be communicated in welcome/confirmation email text
 - no automatic notification email is sent when the Admin unsuspends the account
+- no emails are send to suspended users, so if the event code somehow manages to run before the confirmation email is sent ([one](https://github.com/moodle/moodle/blob/2cea0bd6c66300813457a2f18dc9a4a075efbc93/auth/email/auth.php#L141) -> [two](https://github.com/moodle/moodle/blob/0225ad42eab9f20ac4348dd85ccde8fdbfc206fb/lib/moodlelib.php#L6300) -> [three](https://github.com/moodle/moodle/blob/0225ad42eab9f20ac4348dd85ccde8fdbfc206fb/lib/moodlelib.php#L5854)) the user will not receive a confirmation message. I don't think this will ever be a problem, but still - there is a potential race condition in here.
 
 The "[Email-based self-registration with admin confirmation](https://moodle.org/plugins/auth_emailadmin)" plugin by Felipe Carasso provides better workflow (confirmation email is sent to the user only after admin approval) but forks auth/email/auth.php from core instead of using the event system, which potentially breaks signup (e.g. currently custom/locked fields) if the code isn't updated in lockstep with moodle.
 
@@ -67,6 +68,3 @@ some of the user table fields are shown for brevity purposes):
 * ``{$a->signup_profile_referralcode}``: this will be substituted by
   the content of the custom profile field whose shortname is ``referralcode``.
 * ``{$a->user_profile_link}``: this will be substituted by the URL for editing the user's account.
-
-
-
